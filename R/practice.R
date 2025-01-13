@@ -42,17 +42,17 @@ make_practice_page <- function(page_no, audio_dir) {
 
 get_practice_page <- function(page_no, answer, audio_dir){
   training_answers  <- c(3, 1, 2)
-  example_audios <- c("example_increasing.mp3", "example_decreasing.mp3", "example_same.mp3")
+  example_videos <- c("example_increasing.mp3", "example_decreasing.mp3", "example_same.mp3")
   prompt <- shiny::div(get_feedback(page_no, answer), get_prompt(page_no, 3, TRUE))
   if(page_no == 4){
     page <- get_transition_page(answer)
   }
   else{
-    page <- ERT_item(label = sprintf("training%s", page_no),
+    page <- DER_item(label = sprintf("training%s", page_no),
                      correct_answer = training_answers[page_no],
                      prompt = prompt,
-                     audio_dir = audio_dir,
-                     audio_file = example_audios[page_no],
+                     video_dir = audio_dir,
+                     video_file = example_videos[page_no],
                      save_answer = FALSE,
                      instruction_page = TRUE)
   }
@@ -60,5 +60,5 @@ get_practice_page <- function(page_no, answer, audio_dir){
 }
 
 practice <- function(audio_dir) {
-  lapply(1:4, make_practice_page, audio_dir) %>% unlist()
+  lapply(1:4, make_practice_page, video_dir) %>% unlist()
 }

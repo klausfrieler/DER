@@ -1,10 +1,10 @@
-Package: ERT
+Package: DER
 Type: Package
-Title: Expressivity Recognition Test
+Title: Dance Emotion Recognition Test
 Version: 0.9.0
-Author: Klaus Frieler, Austin Coates
+Author: Klaus Frieler, Julia F. Christension
 Maintainer: Klaus Frieler <kf@omniversum.de>
-Description: Implementation of a musical expresivity recognition test.
+Description: Implementation of a dance emotion recognition test.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -24,4 +24,4 @@ Suggests:
     devtools (>= 1.13.6)
 Remotes: 
     pmcharrison/psychTestR,
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.2

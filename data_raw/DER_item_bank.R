@@ -1,8 +1,4 @@
 library(tidyverse)
-ECT_item_bank <- readxl::read_xlsx("data_raw/ECT_item_bank.xlsx") %>%
-  select(item_number:audio_file) %>%
-  select(-song) %>%
-  mutate(correct_2 = as.numeric(correct_2)) %>%
-  mutate(correct = case_when(is.na(correct_2) ~ 2, correct_2 == 2 ~ 3, TRUE ~ 1)) %>%
-  mutate(audio_file = gsub("5.mp3", "05.mp3", audio_file, fixed = TRUE))
-usethis::use_data(ECT_item_bank, overwrite = TRUE)
+DER_item_bank <- readxl::read_xlsx("data_raw/DER_item_bank.xlsx") %>%
+  mutate(video_file = sprintf("%s.mp4", video_file))
+usethis::use_data(DER_item_bank, overwrite = TRUE)

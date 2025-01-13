@@ -1,7 +1,7 @@
-#' ERT languages
+#' DER languages
 #'
-#' Lists the languages available for ERT implementations.
+#' Lists the languages available for DER implementations.
 #' @export
-ERT_languages <- function() {
-  c("en", "de")
+DER_languages <- function() {
+  c("en", "de", "de_f")
 }

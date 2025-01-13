@@ -1,3 +1,3 @@
-# ERT 0.1.0
+# DER 0.1.0
 
 * First release
