@@ -1,13 +1,14 @@
-get_feedback <- function(page_no, answer){
+get_feedback <- function(page_no, answer, correct){
   if(page_no == 1){
     return("")
   }
   key <- "INCORRECT"
-  if(answer$correct){
+  style <- "color:orange"
+  if(answer == correct){
     key <- "CORRECT"
+    style <- "color:green"
   }
-  feedbacks <- c("SECOND_MORE_EXPRESSIVE", "SECOND_LESS_EXPRESSIVE", "NO_DIFFERENCE")
-  shiny::p(psychTestR::i18n(key),psychTestR::i18n(feedbacks[page_no - 1]))
+  shiny::h3(psychTestR::i18n(key), style = style)
 
 }
 
@@ -27,9 +28,9 @@ get_feedback <- function(page_no, answer){
 # }
 
 
-get_transition_page <- function(answer){
+get_transition_page <- function(answer, correct){
   psychTestR::one_button_page(body = shiny::div(
-    get_feedback(4, answer),
+    get_feedback(4, answer, correct),
     shiny::p(psychTestR::i18n("MAIN_INTRO"))),
     button_text = psychTestR::i18n("CONTINUE"))
 }
@@ -42,12 +43,13 @@ make_practice_page <- function(page_no, video_dir) {
 
 get_practice_page <- function(page_no, answer, video_dir){
   training_answers  <- DER_item_bank[DER_item_bank$type == "practice",]$correct
-  example_videos <- DER_item_bank[DER_item_bank$type == "practice",]$type
-  prompt <- shiny::div(get_feedback(page_no, answer), get_prompt(page_no, 3, TRUE))
+  example_videos <- DER_item_bank[DER_item_bank$type == "practice",]$video_file
   if(page_no == 4){
-    page <- get_transition_page(answer)
+    page <- get_transition_page(answer, training_answers[3])
   }
   else{
+    prompt <- shiny::div(get_feedback(page_no, answer, training_answers[page_no - 1]),
+                         get_prompt(page_no, 3, practice_page = TRUE))
     page <- DER_item(label = sprintf("training%s", page_no),
                      correct_answer = training_answers[page_no],
                      prompt = prompt,
