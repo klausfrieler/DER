@@ -24,33 +24,33 @@ DER <- function(num_items = 12L,
                 take_training = FALSE,
                 with_finish = TRUE,
                 label = "DER",
-                feedback = DER_feedback_with_score(),
+                feedback = DER_feedback_with_score(label = label),
                 dict = DER::DER_dict
                 ) {
   video_dir <- "https://media.gold-msi.org/test_materials/DER"
   stopifnot(purrr::is_scalar_character(label),
             purrr::is_scalar_integer(num_items) || purrr::is_scalar_double(num_items),
-            purrr::is_scalar_character(audio_dir),
+            purrr::is_scalar_character(video_dir),
             psychTestR::is.timeline(feedback) ||
               is.list(feedback) ||
               psychTestR::is.test_element(feedback) ||
               is.null(feedback))
   video_dir <- gsub("/$", "", video_dir)
-
+  #browser()
   psychTestR::join(
     psychTestR::begin_module(label),
     if (with_welcome) DER_welcome_page(),
-     if (take_training) psychTestR::new_timeline(instructions(audio_dir),
+     if (take_training) psychTestR::new_timeline(instructions(video_dir),
                                                  dict = dict),
     #if (take_training) psychTestR::new_timeline(info_page("INSTRUCTIONS"),
     #                                            dict = dict),
     psychTestR::new_timeline(
       main_test(num_items = num_items,
-                audio_dir = audio_dir,
+                video_dir = video_dir,
+                label = label,
                 dict = dict
                 ),
       dict = dict),
-    scoring(),
     psychTestR::elt_save_results_to_disk(complete = TRUE),
     feedback,
     if(with_finish) DER_finished_page(),

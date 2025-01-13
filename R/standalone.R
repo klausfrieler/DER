@@ -27,9 +27,9 @@ debug_locally <- !grepl("shiny-server", getwd())
 #' @export
 
 DER_standalone  <- function(title = NULL,
-                            num_items = 20L,
-                            with_id = TRUE,
-                            with_feedback = TRUE,
+                            num_items = 12L,
+                            with_id = FALSE,
+                            with_feedback = FALSE,
                             with_welcome = TRUE,
                             admin_password = "conifer",
                             researcher_email = "longgoldstudy@gmail.com",
@@ -40,8 +40,8 @@ DER_standalone  <- function(title = NULL,
                             ...) {
   feedback <- NULL
   if(with_feedback) {
-    feedback <- DER::DER_feedback_with_graph()
-    #feedback <- DER::DER_feedback_with_score()
+    feedback <- DER::DER_feedback_with_graph(label = "DER")
+    #feedback <- DER::DER_feedback_with_score(label = "DER")
   }
   elts <- psychTestR::join(
     if(with_welcome) DER_welcome_page(dict = dict),

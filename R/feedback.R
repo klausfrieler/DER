@@ -7,19 +7,16 @@
 #' \dontrun{
 #' DER_demo(feedback = DER_feedback_with_score())}
 
-DER_feedback_with_score <- function(dict = DER::DER_dict) {
+DER_feedback_with_score <- function(dict = DER::DER_dict, label) {
     psychTestR::new_timeline(
       psychTestR::reactive_page(function(state, ...) {
-        #browser()
+        browser()
         results <- psychTestR::get_results(state = state,
                                            complete = TRUE,
                                            add_session_info = FALSE) %>% as.list()
         text_finish <- psychTestR::i18n("FEEDBACK",
                                         html = TRUE,
-                                        sub = list(num_questions = results$DER$num_questions,
-                                                   num_correct = round(results$DER$score * results$DER$num_questions),
-                                                   total_score = results$DER$total_score,
-                                                   max_score = results$DER$max_score))
+                                        sub = list(accuracy = round(results[[label]]$perc_correct * 100, 1)))
         psychTestR::page(
           ui = shiny::div(
             shiny::p(text_finish, style ="width:60%;text-align:justify"),
@@ -59,27 +56,21 @@ DER_feedback_graph_normal_curve <- function(perc_correct, x_min = 40, x_max = 16
 #' @examples
 #' \dontrun{
 #' DER_demo(feedback = DER_feedback_with_score())}
-DER_feedback_with_graph <- function(dict = DER::DER_dict) {
+DER_feedback_with_graph <- function(dict = DER::DER_dict, label ) {
   psychTestR::new_timeline(
       psychTestR::reactive_page(function(state, ...) {
-        #browser()
+        browser()
         results <- psychTestR::get_results(state = state,
                                            complete = TRUE,
                                            add_session_info = FALSE) %>% as.list()
-        x_min <- 40
-        x_max <- 160
-        total_score <- results$DER$total_score/results$DER$max_score
-        fake_IQ <- (x_max - x_min) * results$DER$total_score/results$DER$max_score + x_min
+        results <- results[[label]]
         text_finish <- psychTestR::i18n("FEEDBACK",
                                         html = TRUE,
-                                        sub = list(num_questions = results$DER$num_questions,
-                                                   num_correct = round(results$DER$score * results$DER$num_questions),
-                                                   total_score = fake_IQ,
-                                                   max_score = x_max))
-        norm_plot <- DER_feedback_graph_normal_curve(total_score)
+                                        sub = list(accuracy = round(100 * results$perc_correct, 1)))
+        norm_plot <- DER_feedback_graph_normal_curve(results$perc_correct)
         psychTestR::page(
           ui = shiny::div(
-            shiny::p(text_finish, style ="width:60%;text-align:justify"),
+            shiny::p(text_finish, style ="width:60%;text-align:center"),
             shiny::p(norm_plot),
             shiny::p(psychTestR::trigger_button("next", psychTestR::i18n("CONTINUE")))
           )
