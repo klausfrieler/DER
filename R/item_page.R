@@ -62,10 +62,10 @@ get_video_ui <- function(url,
 
 get_video_element <- function(url,
                               type = tools::file_ext(url),
-                              wait = F,
-                              autoplay = FALSE,
-                              width = 200,
-                              height = 50,
+                              wait = T,
+                              autoplay = TRUE,
+                              width = "50%",
+                              height = NULL,
                               id = "media") {
   #print(url)
   stopifnot(purrr::is_scalar_character(url),
@@ -73,18 +73,30 @@ get_video_element <- function(url,
             )
   src    <- shiny::tags$source(src = url, type = paste0("video/", type))
   script <- shiny::tags$script(shiny::HTML(media_js$media_not_played))
-  video  <- shiny::tags$video(
+  #<video id="media" width="50%"
+  #preload="auto"
+  #autoplay="autoplay"
+  #style="max-width: 500px"
+  #playsinline="playsinline"
+  #oncanplaythrough="if (!media_played) {document.getElementById('btn_play_media').style.visibility='inherit'};"
+  #onplay="media_played = true;document.getElementById('btn_play_media').style.visibility='hidden';"
+  #onended="document.getElementById('response_ui').style.visibility = 'inherit';"
+  #controlslist="nodownload" disablepictureinpicture="disablePictureInPicture">
+    video  <- shiny::tags$video(
     src,
-    script,
+    #script,
     id = id,
     preload = "auto",
     controls = "controls",
     controlslist = "nodownload noremoteplayback",
     autoplay = if(autoplay) "autoplay",
     width = width,
+    max_width = "500px",
     height = height,
-    onplay = paste0(media_js$media_played, media_js$hide_media),
-    onended = if (wait) paste0(media_js$show_responses, media_js$hide_media) else "null"
+    playsinline="playsinline",
+    disablepictureinpicture="disablePictureInPicture",
+    onplay = "null",
+    onended = "null"
   )
   video
 }
@@ -130,7 +142,7 @@ DER_item <- function(label = "",
                      # get_answer = NULL,
                      practice_page = FALSE
 ){
-  prompt <- shiny::div(prompt, shiny::p(video_file, style = "text-size:10px;color:blue"))
+  prompt <- shiny::div(prompt)#, shiny::p(video_file, style = "text-size:10px;color:blue"))
   labels <- c(psychTestR::i18n("ANGER"), psychTestR::i18n("JOY"), psychTestR::i18n("SADNESS"), psychTestR::i18n("FEAR"))
   choices <- c("anger", "joy", "sadness", "fear")
   video_url <- file.path(video_dir, video_file)

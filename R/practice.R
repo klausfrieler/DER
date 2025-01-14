@@ -35,22 +35,22 @@ get_transition_page <- function(answer, correct){
     button_text = psychTestR::i18n("CONTINUE"))
 }
 
-make_practice_page <- function(page_no, video_dir) {
+make_practice_page <- function(page_no, video_dir, num_samples) {
   psychTestR::reactive_page(function(answer, ...) {
-    get_practice_page(page_no, answer, video_dir)
+    get_practice_page(page_no, answer, video_dir, num_samples)
   })
 }
 
-get_practice_page <- function(page_no, answer, video_dir){
-  training_answers  <- DER_item_bank[DER_item_bank$type == "practice",]$correct
-  example_videos <- DER_item_bank[DER_item_bank$type == "practice",]$video_file
-  if(page_no == 4){
-    page <- get_transition_page(answer, training_answers[3])
+get_practice_page <- function(page_no, answer, video_dir, num_samples){
+  training_answers  <- rev(DER_item_bank[DER_item_bank$type == "practice",]$correct)[1:num_samples]
+  example_videos <- rev(DER_item_bank[DER_item_bank$type == "practice",]$video_file)[1:num_samples]
+  if(page_no == num_samples + 1){
+    page <- get_transition_page(answer, training_answers[num_samples])
   }
   else{
     prompt <- shiny::div(get_feedback(page_no, answer, training_answers[page_no - 1]),
-                         get_prompt(page_no, 3, practice_page = TRUE))
-    page <- DER_item(label = sprintf("training%s", page_no),
+                         get_prompt(page_no, num_samples, practice_page = TRUE))
+    page <- DER_item(label = sprintf("practoice%s", page_no),
                      correct_answer = training_answers[page_no],
                      prompt = prompt,
                      video_dir = video_dir,
@@ -60,6 +60,6 @@ get_practice_page <- function(page_no, answer, video_dir){
   page
 }
 
-practice <- function(video_dir) {
-  lapply(1:4, make_practice_page, video_dir) %>% unlist()
+practice <- function(video_dir, num_samples = 3) {
+  lapply(1:(num_samples + 1), make_practice_page, video_dir, num_samples) %>% unlist()
 }

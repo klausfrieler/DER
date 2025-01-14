@@ -26,24 +26,27 @@
 # }
 
 get_prompt <- function(item_number, num_items, practice_page = FALSE) {
-  key <- "PROGRESS_TEXT"
   if(practice_page){
-    key <- "SAMPLE_PROGRESS_TEXT"
+    shiny::div(
+      shiny::h4(psychTestR::i18n("SAMPLE_PROGRESS_TEXT"), style  = "text_align:center"),
+      shiny::p(psychTestR::i18n("PRACTICE_INSTRUCTION"), style = "margin-left:20%;margin-right:20%;text-align:justify")
+    )
   }
-  shiny::div(
-    shiny::h4(
-      psychTestR::i18n(
-        key,
-        sub = list(num_question = item_number,
-                   test_length = if (is.null(num_items))
-                     "?" else
-                       num_items)),
-      style  = "text_align:center"
-    ),
-    shiny::p(
-      psychTestR::i18n("ITEM_INSTRUCTION"),
-      style = "margin-left:20%;margin-right:20%;text-align:center")
-  )
+  else{
+    shiny::div(
+      shiny::h4(psychTestR::i18n(
+        "PROGRESS_TEXT",
+        sub = list(
+          num_question = item_number,
+          test_length = if (is.null(num_items))
+            "?"
+          else
+            num_items
+        )
+      ), style  = "text_align:center"),
+      shiny::p(psychTestR::i18n("ITEM_INSTRUCTION"), style = "margin-left:20%;margin-right:20%;text-align:center")
+    )
+  }
 }
 
 
