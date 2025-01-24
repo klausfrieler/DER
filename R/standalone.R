@@ -27,7 +27,7 @@ debug_locally <- !grepl("shiny-server", getwd())
 #' @export
 
 DER_standalone  <- function(title = NULL,
-                            num_items = 12L,
+                            num_items = 20L,
                             with_id = FALSE,
                             with_feedback = FALSE,
                             with_welcome = TRUE,

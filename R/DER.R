@@ -19,7 +19,7 @@
 #' @param dict The psychTestR dictionary used for internationalisation.
 #' @export
 
-DER <- function(num_items = 12L,
+DER <- function(num_items = 20L,
                 with_welcome = TRUE,
                 take_training = FALSE,
                 with_finish = TRUE,

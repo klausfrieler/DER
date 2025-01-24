@@ -19,7 +19,7 @@ DER_feedback_with_score <- function(dict = DER::DER_dict, label) {
                                         sub = list(accuracy = round(results[[label]]$perc_correct * 100, 1)))
         psychTestR::page(
           ui = shiny::div(
-            shiny::p(text_finish, style ="width:60%;text-align:justify"),
+            shiny::h4(text_finish, style ="width:60%;text-align:center;"),
           )
         )
       }
