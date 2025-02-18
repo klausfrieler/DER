@@ -79,9 +79,9 @@ scoring <- function(sequence, label){
   psychTestR::code_block(function(state, ...){
     res <- psychTestR::get_results(state, complete = T) %>% as.list()
     res <- res[[label]] %>% unlist()
-    ground_truth <- DER_item_bank[sequence, ]$correct
+    ground_truth <- DER::DER_item_bank[sequence, ]$correct
     perc_correct <- mean(res == ground_truth)
-    score <- sum((res == ground_truth)*DER_item_bank[sequence, ]$difficulty)/sum(DER_item_bank[sequence, ]$difficulty)
+    score <- sum((res == ground_truth)*DER::DER_item_bank[sequence, ]$difficulty)/sum(DER::DER_item_bank[sequence, ]$difficulty)
     psychTestR::save_result(place = state,
                             label = "num_correct",
                             value = sum(res == ground_truth))

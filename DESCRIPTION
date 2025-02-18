@@ -1,7 +1,7 @@
 Package: DER
 Type: Package
 Title: Dance Emotion Recognition Test
-Version: 0.5.0
+Version: 0.5.1
 Author: Klaus Frieler, Julia F. Christension
 Maintainer: Klaus Frieler <kf@omniversum.de>
 Description: Implementation of a dance emotion recognition test.

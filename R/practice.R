@@ -42,8 +42,8 @@ make_practice_page <- function(page_no, video_dir, num_samples) {
 }
 
 get_practice_page <- function(page_no, answer, video_dir, num_samples){
-  training_answers  <- rev(DER_item_bank[DER_item_bank$type == "practice",]$correct)[1:num_samples]
-  example_videos <- rev(DER_item_bank[DER_item_bank$type == "practice",]$video_file)[1:num_samples]
+  training_answers  <- rev(DER::DER_item_bank[DER_item_bank$type == "practice",]$correct)[1:num_samples]
+  example_videos <- rev(DER::DER_item_bank[DER::DER_item_bank$type == "practice",]$video_file)[1:num_samples]
   if(page_no == num_samples + 1){
     page <- get_transition_page(answer, training_answers[num_samples])
   }

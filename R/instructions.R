@@ -23,7 +23,7 @@ instructions <- function(video_dir) {
   )
 }
 show_sample_page <- function(video_dir, page_no = c(1, 2)){
-  demo_sample <- DER_item_bank[DER_item_bank$type == "practice",]$video_file[page_no]
+  demo_sample <- DER::DER_item_bank[DER::DER_item_bank$type == "practice",]$video_file[page_no]
   video_url <- file.path(video_dir, demo_sample)
   video <- get_video_element(url = video_url, autoplay = T)
   body <- shiny::div(
