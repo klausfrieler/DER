@@ -77,6 +77,7 @@ main_test <- function(num_items,
 
 scoring <- function(sequence, label){
   psychTestR::code_block(function(state, ...){
+    browser()
     res <- psychTestR::get_results(state, complete = T) %>% as.list()
     res <- res[[label]] %>% unlist()
     ground_truth <- DER::DER_item_bank[sequence, ]$correct
