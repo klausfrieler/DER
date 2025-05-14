@@ -36,7 +36,7 @@ DER <- function(num_items = 20L,
               psychTestR::is.test_element(feedback) ||
               is.null(feedback))
   video_dir <- gsub("/$", "", video_dir)
-  #browser()
+  browser()
   psychTestR::join(
     psychTestR::begin_module(label),
     if (with_welcome) DER_welcome_page(),

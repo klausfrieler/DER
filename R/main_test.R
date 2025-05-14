@@ -58,6 +58,7 @@ main_test <- function(num_items,
                       ...) {
 
   elts <- c()
+  browser()
   item_bank <- DER::DER_item_bank %>% filter(type == "test")
   item_sequence <- sample(1:nrow(item_bank), max(0, min(num_items, nrow(item_bank))))
   for(i in 1:length(item_sequence)){
@@ -83,6 +84,9 @@ scoring <- function(sequence, label){
     ground_truth <- DER::DER_item_bank[sequence, ]$correct
     perc_correct <- mean(res == ground_truth)
     score <- sum((res == ground_truth)*DER::DER_item_bank[sequence, ]$difficulty)/sum(DER::DER_item_bank[sequence, ]$difficulty)
+    psychTestR::save_result(place = state,
+                            label = "item_sequence",
+                            value = paste(sequence, collapse = ","))
     psychTestR::save_result(place = state,
                             label = "num_correct",
                             value = sum(res == ground_truth))
